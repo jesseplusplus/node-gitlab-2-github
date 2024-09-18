@@ -337,7 +337,7 @@ export class GithubHelper {
     let bodyConverted = await this.convertIssuesAndComments(
       issue.description ?? '',
       issue,
-      !this.userIsCreator(issue.author) || !issue.description
+      true
     );
 
     let props: RestEndpointMethodTypes['issues']['create']['parameters'] = {
@@ -438,7 +438,7 @@ export class GithubHelper {
       : await this.convertIssuesAndComments(
           issue.description ?? '',
           issue,
-          !this.userIsCreator(issue.author) || !issue.description
+          true
         );
 
     let props: IssueImport = {
@@ -527,7 +527,7 @@ export class GithubHelper {
         body: await this.convertIssuesAndComments(
           note.body,
           note,
-          !userIsPoster || !note.body
+          true
         ),
       });
 
@@ -917,7 +917,7 @@ export class GithubHelper {
     let bodyConverted = await this.convertIssuesAndComments(
       mergeStr + mergeRequest.description,
       mergeRequest,
-      !this.userIsCreator(mergeRequest.author) || !settings.useIssueImportAPI
+      true
     );
 
     if (settings.useIssueImportAPI) {
@@ -1322,7 +1322,7 @@ export class GithubHelper {
       dateformatOptions
     );
 
-    const attribution = `In GitLab by @${item.author.username} on ${formattedDate}`;
+    const attribution = item.web_url ? `Migrated from GitLab [${item.web_url}](${item.web_url}):` : '';
     const lineRef =
       item && item.position
         ? GithubHelper.createLineRef(item.position, repoLink)
